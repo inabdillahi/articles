@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+<h1>Administration</h1>
+<div class="mt-3 d-flex justify-content-between">
+    <a href="{{path('utilisateur')}}" class="btn btn-sm btn-danger">Gestions des utilisateurs</a>
+    <a href="{{path('categorie')}}" class="btn btn-sm btn-secondary">Gestion des categories</a>
+</div>
+<div class="mt-5">
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="card">
+        <div class="card-header">Liste des annonces</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr class="text-center">
+                            <td>#id</td>
+                            <td>Image</td>
+                            <td>Titre</td>
+                            <td>categorie</td>
+                            <td>Déscription</td>
+                            <td>Date de création</td>
+                            <td>Auteur</td>
+                            <td>Status</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if annonces %}
+                        {% for annonce in annonces %}
+                        <tr class="text-center">
+                            <td class="align-middle">{{annonce.id}}</td>
+                            <td class="align-middle"><img src="{{annonce.image}}" width="60px" alt="" srcset=""></td>
+                            <td class="align-middle">{{annonce.titre}}</td>
+                            <td class="align-middle">{{annonce.categorie.nom}}</td>
+                            <td class="align-middle">{{annonce.description }}</td>
+                            <td class="align-middle">{{annonce.createdAt | date('d/m/Y')}}</td>
+                            <td class="align-middle">{{annonce.utilisateur.username}}</td>
+                            <td class="align-middle">
+                                <span class="badge {% if annonce.status %} bg-success {% else %}bg-danger{% endif %}">
+                                    {% if annonce.status %}active{% else %}desactive{% endif %}
+                                </span>
+                            </td>
+                            <td class="align-middle">
+                                <form action="{{path('admin-annonces-delete',{'id':annonce.id})}}" method="post"
+                                    onsubmit="return confirm('Vous Voulez Supprimer !')">
+                                    <input type="submit" value="Supprimer" class="btn btn-sm btn-danger">
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td>
+                                <p>Aucune annonces publier</p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

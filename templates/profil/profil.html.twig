@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+<h1>Profil</h1>
+<div class="mt-5">
+    <div class="card">
+        <div class="card-header">Mon Profil</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td>Champs</td>
+                            <td>Information</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nom d'utilisateur :</td>
+                            <td>{{app.user.username}}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>{{app.user.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>
+                                <span class="badge bg-success">{% if app.user.status %}active{% else %}desactive{% endif
+                                    %}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nombre d'annonces</td>
+                            <td>{{app.user.annonces|length }} annonces</td>
+                        </tr>
+                        <tr>
+                            <a href="{{path('register-modifier',{'id':app.user.id})}}"
+                                class="btn btn-warning d-block">Modifier</a>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

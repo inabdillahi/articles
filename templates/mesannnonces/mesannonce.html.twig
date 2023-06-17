@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes annonces{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between">
+    <h2>Mes annonces</h2>
+    <a href="{{path('ajouter-annonce')}}" class="btn btn-sm btn-info">Ajouter une annonce</a>
+</div>
+
+<div class="row">
+    <p class="mt-3 text-decoration-underline">Vous avez publiez {{nombreAnnonce}} annonces dans 3 inactive</p>
+
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <div class="col-12 col-md-8">
+        <div class="card mt-3">
+            <div class="card-header">Liste des mes annonces</div>
+            <div class="card-body">
+                {% if mesAnnonces %}
+                {% for mesAnnonces in mesAnnonces %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="http://picsum.photos/300/300" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{mesAnnonces.titre}}</h5>
+                                <span class="badge bg-success">{{mesAnnonces.categorie.nom}}</span>
+                                <p class="card-text">{{mesAnnonces.description}}</p>
+                                <div class="d-flex justify-content-between">
+                                    <span>{{mesAnnonces.createdAt | date('d/m/Y')}}</span>
+                                    <form action="{{path('annonces-delete',{'id':mesAnnonces.id})}}" method="post"
+                                        onsubmit="return confirm('Vous Voulez Supprimer !')">
+                                        <input type="submit" value="Supprimer" class="btn btn-sm btn-danger">
+                                    </form>
+                                    <a href="{{path('modifier-annonce',{'id':mesAnnonces.id})}}"
+                                        class="btn btn-sm btn-warning">Modifier</a>
+                                    <span class="text-primary">{{mesAnnonces.utilisateur.username}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-danger">Vous avez publier aucune annonces</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="card mt-3">
+            <div class="card-header">Categorie</div>
+            <div class="card-body">
+                {% include "commun/categorie.html.twig" with{"categories": categories} %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

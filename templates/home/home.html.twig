@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block body %}
+<h1>Liste des articles</h1>
+
+<div class="row mt-5">
+    {% if annonces %}
+    {% for annonces in annonces %}
+    <div class="col-12 col-md-6">
+
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="http://picsum.photos/300/300" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{annonces.titre}}</h5>
+                        <span class="badge bg-success">{{annonces.categorie.nom}}</span>
+                        <p>{{annonces.description}}</p>
+                        <div class="d-flex justify-content-between">
+                            <span>{{annonces.createdAt | date('d/m/Y')}}</span>
+
+                            <span class="text-primary">{{annonces.utilisateur.username}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+    {% else %}
+    <p class="text-danger">Vous avez publier aucune annonces</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestions des categories{% endblock %}
+
+{% block body %}
+<h1>Gestions des categories</h1>
+
+<div class="row mt-3">
+    <div class="col-12 col-md-5">
+        <div class="card">
+            <div class="card-header">Enregistrer une categorie</div>
+            <div class="card-body">
+                {{form_start(form)}}
+                {{form_widget(form)}}
+                <input type="submit" value="Enregistrer" class="btn btn-secondary">
+                {{form_end(form)}}
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-7">
+        <div class="card">
+            <div class="card-header">Liste des categories</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="table-info">
+                            <tr class="text-center">
+                                <td>#id</td>
+                                <td>Nom du categorie</td>
+                                <td>Slug du categorie</td>
+                                <td colspan="2">Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for message in app.flashes('success') %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+
+
+                            {% if categories %}
+                            {% for categorie in categories %}
+                            <tr class="text-center">
+                                <td>{{categorie.id}}</td>
+                                <td>{{categorie.nom}}</td>
+                                <td>{{categorie.slug}}</td>
+                                <td>
+                                    <form action="{{path('categorie-delete',{'id':categorie.id})}}" method="post">
+                                        <input type="submit" value="Supprimer" class="btn btn-sm btn-danger">
+                                    </form>
+                                </td>
+                                <td><a href="{{path('modifier-categorie',{'id':categorie.id})}}"
+                                        class="btn btn-sm btn-warning">Modifier</a></td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td><span class="text-danger">Aucune Categorie creé</span></td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
